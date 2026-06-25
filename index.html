@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>untuk ayu zakkiya 🤍</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Georgia,serif;color:#fff;background:#14111f}
+.hidden{display:none}
+#login,#app,#reader{max-width:1000px;margin:auto;padding:20px}
+.card{background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border-radius:22px;padding:20px;margin:12px 0}
+h1,h2,h3{margin-top:0}
+input,textarea,select{width:100%;padding:12px;border-radius:12px;border:none;margin:8px 0}
+button{padding:10px 16px;border:none;border-radius:12px;cursor:pointer;margin:4px}
+.letter{padding:14px;border-bottom:1px solid rgba(255,255,255,.15);cursor:pointer}
+.fav{border-left:4px solid gold}
+.theme-cinta{background:linear-gradient(135deg,#6d214f,#c44569)}
+.theme-rindu{background:linear-gradient(135deg,#1b2a49,#274690)}
+.theme-luka{background:linear-gradient(135deg,#2b0d12,#6b1f2a)}
+.theme-hujan{background:linear-gradient(135deg,#264653,#457b9d)}
+.theme-senja{background:linear-gradient(135deg,#9c6644,#e09f3e)}
+.theme-harapan{background:linear-gradient(135deg,#6b705c,#ddb892)}
+.topbar{display:flex;gap:10px;flex-wrap:wrap}
+.small{opacity:.8;font-size:.9em}
+</style>
+</head>
+<body>
+
+<div id="login">
+<div class="card">
+<h1>untuk ayu zakkiya 🤍</h1>
+<p>ini tentang kya.<br>tentang aku.<br>dan tentang kenangan yang tersimpan.</p>
+<p><i>untuk masuk,<br>ketik kata yang kusimpan untukmu.</i></p>
+<input id="pw" type="password" placeholder="password">
+<button onclick="login()">masuk</button>
+<p id="msg"></p>
+</div>
+</div>
+
+<div id="app" class="hidden">
+<div class="card">
+<h2>⭐ favorit</h2>
+<div id="favs"><i>belum ada favorit</i></div>
+</div>
+
+<div class="card">
+<h2>➕ tulis surat baru</h2>
+<input id="title" placeholder="judul surat">
+<select id="theme">
+<option value="cinta">❤️ cinta</option>
+<option value="rindu">🌙 rindu</option>
+<option value="luka">🥀 luka</option>
+<option value="hujan">🌧️ hujan</option>
+<option value="senja">🌅 senja</option>
+<option value="harapan">✨ harapan</option>
+</select>
+<textarea id="content" rows="8" placeholder="tuliskan isi hatimu..."></textarea>
+<button onclick="saveLetter()">simpan surat</button>
+<button onclick="exportData()">📥 export kenangan</button>
+<input type="file" id="importFile" onchange="importData(event)">
+</div>
+
+<div class="card">
+<h2>📚 arsip surat</h2>
+<div id="letters"></div>
+</div>
+</div>
+
+<div id="reader" class="hidden">
+<div id="readerCard" class="card">
+<div class="topbar">
+<button onclick="backHome()">← kembali</button>
+<button onclick="toggleFav()">⭐ favorit</button>
+<button onclick="deleteLetter()">🗑 hapus</button>
+</div>
+<h2 id="rTitle"></h2>
+<div id="rDate" class="small"></div>
+<div id="rContent"></div>
+
+<h3>💬 komentar</h3>
+<div id="commentList"></div>
+<input id="commentName" placeholder="nama">
+<input id="commentText" placeholder="tulis komentar">
+<button onclick="addComment()">kirim komentar</button>
+</div>
+</div>
+
+<script>
+const PASSWORD="selalutentangkya";
+let currentIndex=null;
+
+function login(){
+if(pw.value===PASSWORD){
+login.classList.add('hidden');
+app.classList.remove('hidden');
+render();
+}else msg.innerText="kata yang kamu masukkan belum tepat.";
+}
+
+function data(){return JSON.parse(localStorage.getItem('ayu_letters')||'[]');}
+function save(d){localStorage.setItem('ayu_letters',JSON.stringify(d));}
+
+function saveLetter(){
+if(!content.value.trim()) return;
+const d=data();
+d.unshift({
+title:title.value||'tanpa judul',
+content:content.value,
+theme:theme.value,
+fav:false,
+date:new Date().toLocaleString('id-ID'),
+comments:[]
+});
+save(d);
+title.value=''; content.value='';
+render();
+}
+
+function render(){
+const d=data();
+letters.innerHTML='';
+favs.innerHTML='';
+
+d.forEach((x,i)=>{
+const el=document.createElement('div');
+el.className='letter'+(x.fav?' fav':'');
+el.innerHTML='📩 <b>'+x.title+'</b><br><span class="small">'+x.date+'</span>';
+el.onclick=()=>openLetter(i);
+letters.appendChild(el);
+
+if(x.fav){
+const f=el.cloneNode(true);
+f.onclick=()=>openLetter(i);
+favs.appendChild(f);
+}
+});
+
+if(favs.innerHTML==='') favs.innerHTML='<i>belum ada favorit</i>';
+}
+
+function openLetter(i){
+currentIndex=i;
+const d=data()[i];
+app.classList.add('hidden');
+reader.classList.remove('hidden');
+
+readerCard.className='card theme-'+d.theme;
+rTitle.textContent=d.title;
+rDate.textContent=d.date;
+rContent.innerHTML='<p>'+d.content.replace(/\\n/g,'<br>')+'</p>';
+
+commentList.innerHTML=d.comments.map(c=>
+'<div class="card"><b>'+c.name+'</b><br>'+c.text+'<div class="small">'+c.date+'</div></div>'
+).join('');
+}
+
+function backHome(){
+reader.classList.add('hidden');
+app.classList.remove('hidden');
+render();
+}
+
+function toggleFav(){
+const d=data();
+d[currentIndex].fav=!d[currentIndex].fav;
+save(d);
+openLetter(currentIndex);
+}
+
+function deleteLetter(){
+if(!confirm('hapus surat ini?')) return;
+const d=data();
+d.splice(currentIndex,1);
+save(d);
+backHome();
+}
+
+function addComment(){
+const d=data();
+if(!commentText.value.trim()) return;
+d[currentIndex].comments.push({
+name:commentName.value||'anonim',
+text:commentText.value,
+date:new Date().toLocaleString('id-ID')
+});
+save(d);
+commentText.value='';
+openLetter(currentIndex);
+}
+
+function exportData(){
+const blob=new Blob([JSON.stringify(data(),null,2)],{type:'application/json'});
+const a=document.createElement('a');
+a.href=URL.createObjectURL(blob);
+a.download='kenangan_ayu_backup.json';
+a.click();
+}
+
+function importData(e){
+const file=e.target.files[0];
+if(!file) return;
+const r=new FileReader();
+r.onload=()=>{
+localStorage.setItem('ayu_letters',r.result);
+render();
+};
+r.readAsText(file);
+}
+</script>
+</body>
+</html>
