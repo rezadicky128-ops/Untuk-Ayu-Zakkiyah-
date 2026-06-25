@@ -23,6 +23,7 @@ button{padding:10px 16px;border:none;border-radius:12px;cursor:pointer;margin:4p
 .theme-harapan{background:linear-gradient(135deg,#6b705c,#ddb892)}
 .topbar{display:flex;gap:10px;flex-wrap:wrap}
 .small{opacity:.8;font-size:.9em}
+  #rContent{white-space:pre-wrap;line-height:1.6;}
 </style>
 </head>
 <body>
@@ -149,7 +150,7 @@ reader.classList.remove('hidden');
 readerCard.className='card theme-'+d.theme;
 rTitle.textContent=d.title;
 rDate.textContent=d.date;
-rContent.innerHTML='<p>'+d.content.replace(/\\n/g,'<br>')+'</p>';
+rContent.textContent = d.content;
 
 commentList.innerHTML=d.comments.map(c=>
 '<div class="card"><b>'+c.name+'</b><br>'+c.text+'<div class="small">'+c.date+'</div></div>'
