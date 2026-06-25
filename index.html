@@ -101,7 +101,7 @@ button{padding:10px 16px;border:none;border-radius:12px;cursor:pointer;margin:4p
 </div>
 
 <script>
-const PASSWORD_HASH = "8677e4860b86a3cb3652db6bfdf2ba7b8a8b16bb931fae8071869e26217462fa";
+const PASSWORD_HASH = "b4f177fb73cd60bc72a74bd423df2f21a4fcf1d08cf702cf110a2f585cb15942";
 let currentIndex = null;
 
 async function sha256(string) {
@@ -111,17 +111,16 @@ async function sha256(string) {
 }
 
 async function login(){
-    const inputHash = await sha256(pw.value);
-    if(inputHash === PASSWORD_HASH){
-        document.getElementById('login').classList.add('hidden');
-        document.getElementById('app').classList.remove('hidden');
-        render();
-    } else {
-        msg.innerText = "kata yang kamu masukkan belum tepat.";
-    }
+  // .trim() dipasang agar kalau keyboard HP nambahin spasi, tidak bikin salah
+  const inputHash = await sha256(pw.value.trim());
+  if(inputHash === PASSWORD_HASH){
+    document.getElementById('login').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    render();
+  } else {
+    msg.innerText = "kata yang kamu masukkan belum tepat.";
+  }
 }
-
-
 
 function data(){return JSON.parse(localStorage.getItem('ayu_letters')||'[]');}
 function save(d){localStorage.setItem('ayu_letters',JSON.stringify(d));}
