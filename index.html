@@ -444,11 +444,11 @@ function render(){
     item.onclick = () => openLetter(i);
     container.appendChild(item);
   });
-          // Pesan Penutup di Paling Bawah Foto
+            // Pesan Penutup di Luar Container Foto
     const footer = document.createElement('div');
     footer.innerHTML = `
-        <div style="text-align: center; margin: 60px auto 40px; padding: 0 10px; font-family: 'Playfair Display', serif; color: #f0e6d2; width: 100%; display: block; clear: both;">
-            <p style="font-size: 1.05rem; font-style: italic; letter-spacing: 0.5px; line-height: 2; opacity: 0.95; display: inline-block; width: 90%; max-width: 100%; white-space: normal; word-break: keep-all;">
+        <div style="text-align: center; margin: 60px auto 40px; padding: 0 20px; font-family: 'Playfair Display', serif; color: #f0e6d2; width: 100%; box-sizing: border-box;">
+            <p style="font-size: 1.1rem; font-style: italic; letter-spacing: 0.5px; line-height: 1.8; opacity: 0.95; margin: 0; display: block;">
                 "Satu babak telah abadi di tempat ini.<br>
                 Terima kasih sudah melangkah sejauh ini bersamaku, Kya.<br>
                 Semoga cerita kita ngga berakhir sampai di sini,<br>
@@ -458,7 +458,7 @@ function render(){
             <span style="display: block; margin-top: 20px; font-size: 1.5rem; color: #ff4d6d;">🤍</span>
         </div>
     `;
-    container.appendChild(footer);
+    document.getElementById('app').after(footer);
 }
 
 function openLetter(i){
