@@ -597,6 +597,24 @@ function backHome(){
   document.getElementById('reader').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
   render();
+  // Memasukkan puisi sekali saja di paling luar aplikasi agar tidak merusak grid foto
+if (!document.getElementById('pesan-penutup')) {
+    const footerSingle = document.createElement('div');
+    footerSingle.id = 'pesan-penutup';
+    footerSingle.innerHTML = `
+        <div style="text-align: center; margin: 60px auto 40px; padding: 0 20px; font-family: 'Playfair Display', serif; color: #f0e6d2; width: 100%; box-sizing: border-box; display: block; clear: both;">
+            <p style="font-size: 1.1rem; font-style: italic; letter-spacing: 0.5px; line-height: 1.8; opacity: 0.95; margin: 0 auto; max-width: 90%;">
+                "Satu babak telah abadi di tempat ini.<br>
+                Terima kasih sudah melangkah sejauh ini bersamaku, Kya.<br>
+                Semoga cerita kita ngga berakhir sampai di sini,<br>
+                dan ruang museum ini akan terus penuh<br>
+                dengan cerita-cerita kita yang baru..."
+            </p>
+            <span style="display: block; margin-top: 20px; font-size: 1.5rem; color: #ff4d6d;">🤍</span>
+        </div>
+    `;
+    document.body.appendChild(footerSingle);
+}
 }
 </script>
 </body>
