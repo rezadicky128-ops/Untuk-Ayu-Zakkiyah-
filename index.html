@@ -565,35 +565,20 @@ async function login(){
 }
 
 function render(){
-  const container = document.getElementById('letters');
-  container.innerHTML = '';
-  museumData.forEach((x, i) => {
-    const item = document.createElement('div');
-    item.className = 'museum-item';
-    item.innerHTML = `
-      <div class="photo-frame">
-        <img src="${x.img}" alt="${x.title}">
-      </div>
-      <div class="photo-title">${x.title}</div>
-    `;
-    item.onclick = () => openLetter(i);
-    container.appendChild(item);
-  });
-            // Pesan Penutup di Luar Container Foto
-    const footer = document.createElement('div');
-    footer.innerHTML = `
-        <div style="text-align: center; margin: 60px auto 40px; padding: 0 20px; font-family: 'Playfair Display', serif; color: #f0e6d2; width: 100%; box-sizing: border-box;">
-            <p style="font-size: 1.1rem; font-style: italic; letter-spacing: 0.5px; line-height: 1.8; opacity: 0.95; margin: 0; display: block;">
-                "Satu babak telah abadi di tempat ini.<br>
-                Terima kasih sudah melangkah sejauh ini bersamaku, Kya.<br>
-                Semoga cerita kita ngga berakhir sampai di sini,<br>
-                dan ruang museum ini akan terus penuh<br>
-                dengan cerita-cerita kita yang baru..."
-            </p>
-            <span style="display: block; margin-top: 20px; font-size: 1.5rem; color: #ff4d6d;">🤍</span>
-        </div>
-    `;
-    document.getElementById('app').after(footer);
+    const container = document.getElementById('app'); 
+    container.innerHTML = '';
+    museumData.forEach((x, i) => {
+        const item = document.createElement('div');
+        item.className = 'museum-item';
+        item.innerHTML = `
+            <div class="photo-frame">
+                <img src="${x.img}" alt="${x.title}">
+            </div>
+            <div class="photo-title">${x.title}</div>
+        `;
+        item.onclick = () => openLetter(i);
+        container.appendChild(item);
+    });
 }
 
 function openLetter(i){
@@ -615,4 +600,15 @@ function backHome(){
 }
 </script>
 </body>
+  <!-- Pesan Penutup Fix Singel -->
+<div style="text-align: center; margin: 60px auto 40px; padding: 0 20px; font-family: 'Playfair Display', serif; color: #f0e6d2; clear: both; position: relative; z-index: 10;">
+    <p style="font-size: 1.1rem; font-style: italic; letter-spacing: 0.5px; line-height: 1.8; opacity: 0.95; margin: 0 auto; max-width: 90%;">
+        "Satu babak telah abadi di tempat ini.<br>
+        Terima kasih sudah melangkah sejauh ini bersamaku, Kya.<br>
+        Semoga cerita kita ngga berakhir sampai di sini,<br>
+        dan ruang museum ini akan terus penuh<br>
+        dengan cerita-cerita kita yang baru..."
+    </p>
+    <span style="display: block; margin-top: 20px; font-size: 1.5rem; color: #ff4d6d;">🤍</span>
+</div>
 </html>
