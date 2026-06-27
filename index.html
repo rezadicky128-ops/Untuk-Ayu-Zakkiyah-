@@ -13,38 +13,69 @@ body{margin:0;font-family:Georgia,serif;color:#fff;background:#14111f}
 h1,h2,h3{margin-top:0}
 input,textarea,select{width:100%;padding:12px;border-radius:12px;border:none;margin:8px 0}
 button{padding:10px 16px;border:none;border-radius:12px;cursor:pointer;margin:4px}
-.letter{padding:14px;border-bottom:1px solid rgba(255,255,255,.15);cursor:pointer}
-.fav{border-left:4px solid gold}
-.theme-cinta{background:linear-gradient(135deg,#6d214f,#c44569)}
-.theme-rindu{background:linear-gradient(135deg,#1b2a49,#274690)}
-.theme-luka{background:linear-gradient(135deg,#2b0d12,#6b1f2a)}
-.theme-hujan{background:linear-gradient(135deg,#264653,#457b9d)}
-.theme-senja{background:linear-gradient(135deg,#9c6644,#e09f3e)}
-.theme-harapan{background:linear-gradient(135deg,#6b705c,#ddb892)}
-.topbar{display:flex;gap:10px;flex-wrap:wrap}
+.topbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
 .small{opacity:.8;font-size:.9em}
-  #rContent{white-space:pre-wrap;line-height:1.6;}
+#rContent{white-space:pre-wrap;line-height:1.6;}
+
+/* --- STYLE BARU UNTUK MUSEUM FOTO (GRID 2 KOLOM) --- */
+.museum-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+.museum-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.museum-item:active {
+  transform: scale(0.96);
+}
+.photo-frame {
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo-title {
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  color: #e5c398;
+}
+
+/* Style Foto di Dalam Surat */
+.reader-img {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
 </style>
 </head>
 <body>
 
+<!-- 1. HALAMAN LOGIN (Sama Persis, Tidak Diubah) -->
 <div id="login">
   <div class="card" style="text-align: center; padding: 25px; background: rgba(15, 15, 20, 0.9); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 15px;">
-    
-    <!-- Judul Estetis Menyatu dengan Love -->
     <h1 style="font-family: 'Georgia', serif; font-style: italic; font-size: 26px; color: #e5c398; margin-bottom: 15px; font-weight: normal;">
       untuk ayu zakkiya 🤍
     </h1>
-    
-    <!-- Gambar Proporsional (Ngga Kepanjangan) -->
     <img src="gerbera.png" alt="Bunga Gerbera" style="display: block; width: 100%; max-width: 280px; height: 280px; object-fit: cover; margin: 0 auto 20px auto; border-radius: 10px;">
-    
-    <!-- Teks Cerita -->
     <p style="font-family: 'Georgia', serif; font-size: 15px; color: #e5c398; opacity: 0.9; margin-bottom: 25px; line-height: 1.5;">
       ini tentang kya... tentang aku...<br>dan tentang kenangan...
     </p>
-
-    <!-- Struktur Input & Tombol yang Benar -->
     <p><i>untuk masuk,<br>ketik kata yang kusimpan untukmu.</i></p>
     <input id="pw" type="password" placeholder="password">
     <button onclick="login()">masuk</button>
@@ -52,176 +83,124 @@ button{padding:10px 16px;border:none;border-radius:12px;cursor:pointer;margin:4p
   </div>
 </div>
 
+<!-- PEMUTAR MUSIK UTK HALAMAN KE-2 (Ganti link src dengan lagu mp3 kamu nanti) -->
+<audio id="bgMusic" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
+
+<!-- 2. HALAMAN UTAMA (MUSEUM FOTO - MENGGANTIKAN HALAMAN INPUT KEMARIN) -->
 <div id="app" class="hidden">
-<div class="card">
-<h2>⭐ favorit</h2>
-<div id="favs"><i>belum ada favorit</i></div>
+  <div style="text-align: center; margin-bottom: 20px;">
+    <h2 style="font-style: italic; color: #e5c398; letter-spacing: 1px;">Museum Kenangan</h2>
+    <p style="opacity: 0.7; font-size: 0.9em;">— ketuk foto untuk membaca ceritanya —</p>
+  </div>
+  
+  <!-- Tempat Grid Foto Ter-render -->
+  <div class="museum-grid" id="letters"></div>
 </div>
 
-<div class="card">
-<h2>➕ tulis surat baru</h2>
-<input id="title" placeholder="judul surat">
-<select id="theme">
-<option value="cinta">❤️ cinta</option>
-<option value="rindu">🌙 rindu</option>
-<option value="luka">🥀 luka</option>
-<option value="hujan">🌧️ hujan</option>
-<option value="senja">🌅 senja</option>
-<option value="harapan">✨ harapan</option>
-</select>
-<textarea id="content" rows="8" placeholder="tuliskan isi hatimu..."></textarea>
-<button onclick="saveLetter()">simpan surat</button>
-<button onclick="exportData()">📥 export kenangan</button>
-<input type="file" id="importFile" onchange="importData(event)">
-</div>
-
-<div class="card">
-<h2>📚 arsip surat</h2>
-<div id="letters"></div>
-</div>
-</div>
-
+<!-- 3. HALAMAN BACA SURAT -->
 <div id="reader" class="hidden">
-<div id="readerCard" class="card">
-<div class="topbar">
-<button onclick="backHome()">← kembali</button>
-<button onclick="toggleFav()">⭐ favorit</button>
-<button onclick="deleteLetter()">🗑 hapus</button>
-</div>
-<h2 id="rTitle"></h2>
-<div id="rDate" class="small"></div>
-<div id="rContent"></div>
-
-<h3>💬 komentar</h3>
-<div id="commentList"></div>
-<input id="commentName" placeholder="nama">
-<input id="commentText" placeholder="tulis komentar">
-<button onclick="addComment()">kirim komentar</button>
-</div>
+  <div class="topbar">
+    <button onclick="backHome()" style="background: rgba(255,255,255,0.1); color: #fff;">← kembali</button>
+  </div>
+  
+  <div id="readerCard" class="card" style="background: rgba(15, 15, 20, 0.95);">
+    <!-- FOTO KENANGAN DI PALING ATAS -->
+    <img id="rImg" class="reader-img" src="" alt="Foto Kenangan">
+    
+    <!-- JUDUL SURAT -->
+    <h2 id="rTitle" style="color: #e5c398; text-align: center; font-style: italic; margin-bottom: 5px;"></h2>
+    <div id="rDate" class="small" style="text-align: center; margin-bottom: 20px; opacity: 0.5;"></div>
+    
+    <!-- ISI TULISAN -->
+    <div id="rContent"></div>
+  </div>
 </div>
 
 <script>
 let currentIndex = null;
 
+// --- DATA KONTEN MUSEUM (Foto, Judul, & Isi Surat) ---
+// Ganti "foto1.jpg", dst dengan nama file foto aslimu yang di-upload ke GitHub
+const museumData = [
+  {
+    title: "Awal Mula ✨",
+    img: "foto1.jpg", 
+    content: "Hai Kya... Ini adalah tempat di mana semua cerita kita dicatat. Ingat tidak waktu pertama kali kita..."
+  },
+  {
+    title: "Senyuman Favorit 🤍",
+    img: "foto2.jpg",
+    content: "Dari sekian banyak hal di dunia, senyuman kamu tetap jadi hal favorit yang selalu ingin aku lihat setiap hari..."
+  },
+  {
+    title: "Hari Spesial 🎂",
+    img: "foto3.jpg",
+    content: "Selamat momen spesial kita! Terima kasih ya sudah berjuang bareng-bareng sampai sejauh ini..."
+  },
+  {
+    title: "Selamanya 🔗",
+    img: "foto4.jpg",
+    content: "Harapanku ringkas saja, semoga selalu ada kata kita di setiap lembaran cerita selanjutnya. Aku sayang kamu."
+  }
+];
+
 async function login(){
   if(pw.value.trim() === "selalutentangkya"){
     document.getElementById('login').style.display = 'none';
     document.getElementById('app').classList.remove('hidden');
+    
+    // MEMUTAR LAGU OTOMATIS SAAT MASUK Halaman 2
+    const lagu = document.getElementById('bgMusic');
+    lagu.play().catch(err => console.log("Musik otomatis berputar setelah layar interaktif."));
+    
     render();
   } else {
     msg.innerText = "kata yang kamu masukkan belum tepat.";
   }
 }
 
-function data(){return JSON.parse(localStorage.getItem('ayu_letters')||'[]');}
-function save(d){localStorage.setItem('ayu_letters',JSON.stringify(d));}
-
-function saveLetter(){
-if(!content.value.trim()) return;
-const d=data();
-d.unshift({
-title:title.value||'tanpa judul',
-content:content.value,
-theme:theme.value,
-fav:false,
-date:new Date().toLocaleString('id-ID'),
-comments:[]
-});
-save(d);
-title.value=''; content.value='';
-render();
-}
-
+// Fungsi menampilkan koleksi foto berbentuk grid museum
 function render(){
-const d=data();
-letters.innerHTML='';
-favs.innerHTML='';
+  const container = document.getElementById('letters');
+  container.innerHTML = '';
 
-d.forEach((x,i)=>{
-const el=document.createElement('div');
-el.className='letter'+(x.fav?' fav':'');
-el.innerHTML='📩 <b>'+x.title+'</b><br><span class="small">'+x.date+'</span>';
-el.onclick=()=>openLetter(i);
-letters.appendChild(el);
-
-if(x.fav){
-const f=el.cloneNode(true);
-f.onclick=()=>openLetter(i);
-favs.appendChild(f);
-}
-});
-
-if(favs.innerHTML==='') favs.innerHTML='<i>belum ada favorit</i>';
+  museumData.forEach((x, i) => {
+    const item = document.createElement('div');
+    item.className = 'museum-item';
+    item.innerHTML = `
+      <div class="photo-frame">
+        <img src="${x.img}" alt="${x.title}">
+      </div>
+      <div class="photo-title">${x.title}</div>
+    `;
+    item.onclick = () => openLetter(i);
+    container.appendChild(item);
+  });
 }
 
 function openLetter(i){
-currentIndex=i;
-const d=data()[i];
-app.classList.add('hidden');
-reader.classList.remove('hidden');
+  currentIndex = i;
+  const d = museumData[i];
+  
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('reader').classList.remove('hidden');
 
-readerCard.className='card theme-'+d.theme;
-rTitle.textContent=d.title;
-rDate.textContent=d.date;
-rContent.textContent = d.content;
-
-commentList.innerHTML=d.comments.map(c=>
-'<div class="card"><b>'+c.name+'</b><br>'+c.text+'<div class="small">'+c.date+'</div></div>'
-).join('');
+  // Memasang foto di atas, judul di tengah, isi surat di bawah
+  document.getElementById('rImg').src = d.img;
+  document.getElementById('rTitle').textContent = d.title;
+  document.getElementById('rDate').textContent = "Museum Kenangan Kita";
+  document.getElementById('rContent').textContent = d.content;
+  
+  window.scrollTo(0, 0);
 }
 
 function backHome(){
-reader.classList.add('hidden');
-app.classList.remove('hidden');
-render();
-}
-
-function toggleFav(){
-const d=data();
-d[currentIndex].fav=!d[currentIndex].fav;
-save(d);
-openLetter(currentIndex);
-}
-
-function deleteLetter(){
-if(!confirm('hapus surat ini?')) return;
-const d=data();
-d.splice(currentIndex,1);
-save(d);
-backHome();
-}
-
-function addComment(){
-const d=data();
-if(!commentText.value.trim()) return;
-d[currentIndex].comments.push({
-name:commentName.value||'anonim',
-text:commentText.value,
-date:new Date().toLocaleString('id-ID')
-});
-save(d);
-commentText.value='';
-openLetter(currentIndex);
-}
-
-function exportData(){
-const blob=new Blob([JSON.stringify(data(),null,2)],{type:'application/json'});
-const a=document.createElement('a');
-a.href=URL.createObjectURL(blob);
-a.download='kenangan_ayu_backup.json';
-a.click();
-}
-
-function importData(e){
-const file=e.target.files[0];
-if(!file) return;
-const r=new FileReader();
-r.onload=()=>{
-localStorage.setItem('ayu_letters',r.result);
-render();
-};
-r.readAsText(file);
+  document.getElementById('reader').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  render();
 }
 </script>
 </body>
 </html>
+
+
