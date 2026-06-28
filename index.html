@@ -96,7 +96,7 @@ button{padding:10px 16px;border:none;border-radius:12px;cursor:pointer;margin:4p
 </div>
 
 <!-- BACKSOUND LAGU PERUNGGU - ABADI -->
-<audio id="bgMusic" src="abadi.mp3" loop></audio>
+<audio id="bgMusic" src="abadi.mp3"></audio>
 
 <!-- 2. HALAMAN MUSEUM (GRID 4 FOTO) -->
 <div id="app" class="hidden">
@@ -641,6 +641,19 @@ function backHome(){
   document.getElementById('app').classList.remove('hidden');
   render();
 }
+
+const daftarLagu = ['abadi.mp3', 'sumpahmati.mp3']; 
+let urutan = 0;
+const audio = document.getElementById('bgMusic');
+
+audio.onended = function() {
+    urutan++; 
+    if (urutan >= daftarLagu.length) {
+        urutan = 0;
+    }
+    audio.src = daftarLagu[urutan];
+    audio.play();
+};
   
 </script>
 </body>
