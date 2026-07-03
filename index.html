@@ -31,15 +31,20 @@ button{padding:10px 16px;border:none;border-radius:12px;cursor:pointer;margin:4p
   overflow: hidden;
   cursor: pointer;
   transition: 0.3s ease;
-
-  box-shadow:
-  0 0 10px rgba(229,195,152,.15);
+  box-shadow: 0 0 10px rgba(229,195,152,.15);
+  animation: fadeUp .6s ease;
 }
 .museum-item:active {
   transform: scale(0.97);
   
   box-shadow:
     0 0 20px rgba(229,195,152,.25);
+}
+.museum-title{
+  font-style: italic;
+  color: #e5c398;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px rgba(229,195,152,.6);
 }
 .photo-frame {
   width: 100%;
@@ -81,11 +86,15 @@ button{padding:10px 16px;border:none;border-radius:12px;cursor:pointer;margin:4p
   }
 }
 
-.museum-title{
-  font-style: italic;
-  color: #e5c398;
-  letter-spacing: 1px;
-  text-shadow: 0 0 8px rgba(229,195,152,.6);
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 </style>
 </head>
